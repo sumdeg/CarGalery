@@ -9,13 +9,13 @@ using System.Text;
 
 namespace CarGalery.DataAccess.Concrete.EntityFramework
 {
-    public class EfRepositoryBase<Tentity, Tcontext: IEntityRepository<Tentity>
+    public class EfRepositoryBase<Tentity, Tcontext> : IEntityRepository<Tentity>
         where Tentity : class, IEntity, new()
         where Tcontext : DbContext, new()
     {
         public void Add(Tentity entity)
         {
-            using (Tcontext context=new Tcontext())
+            using (Tcontext context = new Tcontext())
             {
                 context.Entry(entity).State = EntityState.Added;
                 context.SaveChanges();
@@ -44,7 +44,7 @@ namespace CarGalery.DataAccess.Concrete.EntityFramework
             using (Tcontext context = new Tcontext())
             {
                 return filter == null ?
-                    context.Set<Tentity>().ToList():
+                   context.Set<Tentity>().ToList() :
                    context.Set<Tentity>().Where(filter).ToList();
 
             }
@@ -58,4 +58,5 @@ namespace CarGalery.DataAccess.Concrete.EntityFramework
                 context.SaveChanges();
             }
         }
+    }
 }
